@@ -1,0 +1,151 @@
+.footer {
+  background: #ffffff;
+  color: var(--mh-ink-soft);
+  border-top: 1px solid #eee;
+}
+
+/* Contact band */
+.contactBand {
+  background: var(--mh-pink-soft);
+  color: var(--mh-ink);
+  border-bottom: 1px solid #f1dcd6;
+}
+
+.contactInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-block: 2.25rem;
+}
+
+.contactTitle {
+  color: var(--mh-ink);
+  font-size: var(--fs-2xl);
+  margin-bottom: 0.25rem;
+}
+
+.contactActions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Main */
+.main {
+  display: grid;
+  grid-template-columns: 1.2fr 3fr;
+  gap: 2.5rem;
+  padding-block: 3.5rem;
+}
+
+.brandText {
+  margin: 1.25rem 0;
+  font-size: var(--fs-sm);
+  color: var(--mh-ink-soft);
+  max-width: 30ch;
+}
+
+.socials {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.social {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--mh-coral);
+  color: #fff;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.social:hover {
+  background: var(--mh-coral-dark);
+  transform: translateY(-2px);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.columnTitle {
+  color: var(--mh-ink);
+  font-size: var(--fs-base);
+  margin-bottom: 1rem;
+}
+
+.column ul {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.column a {
+  color: var(--mh-ink-soft);
+  font-size: var(--fs-sm);
+  transition: color 0.15s ease;
+}
+
+.column a:hover {
+  color: var(--mh-coral);
+  text-decoration: underline;
+}
+
+/* Legal */
+.legal {
+  border-top: 1px solid #eee;
+  background: var(--mh-gray-50);
+}
+
+.legalInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-block: 1.25rem;
+}
+
+.copyright {
+  font-size: var(--fs-xs);
+  color: #8a8a93;
+  margin: 0;
+}
+
+.legalLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+}
+
+.legalLinks a {
+  font-size: var(--fs-xs);
+  color: var(--mh-ink-soft);
+  transition: color 0.15s ease;
+}
+
+.legalLinks a:hover {
+  color: var(--mh-coral);
+  text-decoration: underline;
+}
+
+@media (max-width: 860px) {
+  .main {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+}

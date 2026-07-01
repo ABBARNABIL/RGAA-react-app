@@ -1,0 +1,294 @@
+/* ============================================================
+   Malakoff Humanis (replica) — Global styles & design tokens
+   Accessibility-first (RGAA / WCAG 2.1 AA)
+   ============================================================ */
+
+:root {
+  /* Brand palette — matched to malakoffhumanis.com */
+  --mh-coral: #e2250c;
+  --mh-coral-dark: #b81d09;
+  --mh-coral-soft: #fdeae6;
+  --mh-pink: #f6c9c0;
+  --mh-pink-soft: #fdeeeb;
+  --mh-ink: #222222;
+  --mh-ink-soft: #4d4d57;
+  --mh-teal: #e2250c;
+  --mh-teal-dark: #c11f08;
+  --mh-violet: #7b2fbe;
+  --mh-logo: #6e2b2b;
+
+  /* Neutrals */
+  --mh-white: #ffffff;
+  --mh-gray-50: #f5f5f7;
+  --mh-gray-100: #eef0f4;
+  --mh-gray-200: #e2e5ec;
+  --mh-gray-300: #cfd4de;
+  --mh-gray-500: #6b7185;
+  --mh-gray-700: #444a5c;
+
+  /* Semantic */
+  --bg: var(--mh-white);
+  --bg-alt: var(--mh-gray-50);
+  --text: var(--mh-ink);
+  --text-muted: var(--mh-gray-700);
+  --border: var(--mh-gray-200);
+  --accent: var(--mh-coral);
+  --focus-ring: #1858c4;
+
+  /* Typography */
+  --font-sans: 'Poppins', 'Segoe UI', system-ui, -apple-system,
+    'Helvetica Neue', Arial, sans-serif;
+  --fs-xs: 0.8125rem;
+  --fs-sm: 0.9375rem;
+  --fs-base: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.375rem;
+  --fs-2xl: 1.75rem;
+  --fs-3xl: 2.25rem;
+  --fs-4xl: 3rem;
+
+  /* Layout */
+  --container: 1240px;
+  --radius-sm: 6px;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 3px rgba(27, 27, 47, 0.08);
+  --shadow: 0 8px 24px rgba(27, 27, 47, 0.1);
+  --shadow-lg: 0 16px 40px rgba(27, 27, 47, 0.16);
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+picture,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.15;
+  color: var(--mh-ink);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Accessibility ---------- */
+
+/* Visible focus indicator for keyboard users (RGAA 10.7) */
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Remove outline only when focus-visible is supported and not active */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip link (RGAA 12.7) */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 2000;
+  background: var(--mh-ink);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Layout helpers ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.section--alt {
+  background: var(--bg-alt);
+}
+
+.section__head {
+  max-width: 720px;
+  margin-bottom: 2.5rem;
+}
+
+.section__eyebrow {
+  display: inline-block;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mh-teal-dark);
+  margin-bottom: 0.5rem;
+}
+
+.section__title {
+  font-size: var(--fs-3xl);
+}
+
+.section__subtitle {
+  margin-top: 0.75rem;
+  font-size: var(--fs-lg);
+  color: var(--text-muted);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  --btn-bg: var(--mh-coral);
+  --btn-fg: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease, color 0.18s ease;
+}
+
+.btn:hover {
+  background: var(--mh-coral-dark);
+  transform: translateY(-1px);
+}
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--mh-ink);
+  border-color: currentColor;
+}
+
+.btn--ghost:hover {
+  background: var(--mh-ink);
+  --btn-fg: #fff;
+  color: #fff;
+}
+
+.btn--light {
+  --btn-bg: #fff;
+  --btn-fg: var(--mh-ink);
+}
+
+.btn--light:hover {
+  background: var(--mh-gray-100);
+  color: var(--mh-ink);
+}
+
+.btn--lg {
+  padding: 0.95rem 2rem;
+  font-size: var(--fs-base);
+}
+
+/* Text link with arrow */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  color: var(--mh-ink);
+  border-bottom: 2px solid var(--mh-coral);
+  padding-bottom: 2px;
+  transition: gap 0.18s ease, color 0.18s ease;
+}
+
+.link-arrow::after {
+  content: '→';
+  transition: transform 0.18s ease;
+}
+
+.link-arrow:hover {
+  color: var(--mh-coral-dark);
+}
+
+.link-arrow:hover::after {
+  transform: translateX(3px);
+}

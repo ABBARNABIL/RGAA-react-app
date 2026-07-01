@@ -1,0 +1,337 @@
+/* ---------- Audience ---------- */
+.audienceHead {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 2.5rem;
+}
+
+.audienceGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.audienceCard {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  height: 100%;
+  padding: 1.25rem 1.4rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-weight: 700;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.audienceCard:hover {
+  border-color: var(--mh-coral);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.audienceIcon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--mh-coral-soft);
+  color: var(--mh-coral-dark);
+}
+
+.audienceLabel {
+  flex: 1;
+}
+
+.audienceArrow {
+  color: var(--mh-coral);
+  flex-shrink: 0;
+}
+
+/* ---------- Products ---------- */
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.productCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  height: 100%;
+  padding: 1.75rem;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.productCard:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-3px);
+}
+
+.productIcon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--mh-coral), #ff8a72);
+  color: #fff;
+}
+
+.productTitle {
+  font-size: var(--fs-xl);
+}
+
+.productText {
+  color: var(--text-muted);
+  flex: 1;
+}
+
+/* ---------- Stats ---------- */
+.statsSection {
+  background: var(--mh-pink-soft);
+  color: var(--mh-ink);
+}
+
+.statsTitle {
+  text-align: center;
+  color: var(--mh-ink);
+  font-size: var(--fs-2xl);
+  margin-bottom: 2.5rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin: 0;
+}
+
+.statItem {
+  text-align: center;
+  padding: 1rem;
+}
+
+.statValue {
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  font-weight: 900;
+  color: var(--mh-coral);
+  line-height: 1;
+}
+
+.statLabel {
+  margin: 0.75rem 0 0;
+  color: var(--mh-ink-soft);
+  font-size: var(--fs-sm);
+}
+
+/* ---------- News ---------- */
+.newsHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.newsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.newsCard {
+  height: 100%;
+  background: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.newsCard:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-3px);
+}
+
+.newsThumb {
+  height: 160px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #ffd8dd, #ffe9d6);
+  color: var(--mh-coral-dark);
+  font-weight: 800;
+  font-size: var(--fs-xl);
+}
+
+.newsBody {
+  padding: 1.25rem 1.5rem 1.75rem;
+}
+
+.newsMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--fs-xs);
+  color: var(--mh-gray-500);
+  margin-bottom: 0.5rem;
+}
+
+.newsTag {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--mh-teal-dark);
+}
+
+.newsTitle {
+  font-size: var(--fs-lg);
+}
+
+.newsTitle a {
+  color: var(--mh-ink);
+  transition: color 0.15s ease;
+}
+
+.newsTitle a:hover {
+  color: var(--mh-coral);
+}
+
+/* ---------- Engagements ---------- */
+.engagements {
+  background: var(--mh-ink);
+  color: #fff;
+}
+
+.engagementsInner {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.engagementsTitle {
+  color: #fff;
+  font-size: var(--fs-3xl);
+  margin-block: 0.5rem 1rem;
+}
+
+.engagementsIntro p {
+  color: #d7d8e3;
+  margin-bottom: 1.5rem;
+  font-size: var(--fs-lg);
+}
+
+.engagementsList {
+  display: grid;
+  gap: 1rem;
+}
+
+.engagementItem {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+}
+
+.engagementItem h3 {
+  color: #fff;
+  font-size: var(--fs-lg);
+  margin-bottom: 0.25rem;
+}
+
+.engagementItem p {
+  color: #d7d8e3;
+  font-size: var(--fs-sm);
+  margin: 0;
+}
+
+/* ---------- App promo ---------- */
+.appPromo {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2.5rem;
+  align-items: center;
+  background: var(--mh-gray-50);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.75rem, 4vw, 3.5rem);
+}
+
+.appContent p {
+  color: var(--text-muted);
+  font-size: var(--fs-lg);
+  margin-block: 0.75rem 1.5rem;
+}
+
+.appCtas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.appVisual {
+  display: grid;
+  place-items: center;
+}
+
+.appPhone {
+  width: 200px;
+  height: 300px;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: var(--shadow-lg);
+  border: 8px solid var(--mh-ink);
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.appPhoneRow,
+.appPhoneRowShort {
+  height: 42px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--mh-coral-soft), var(--mh-gray-100));
+}
+
+.appPhoneRowShort {
+  width: 60%;
+  background: var(--mh-coral);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .audienceGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .productGrid,
+  .newsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .engagementsInner,
+  .appPromo {
+    grid-template-columns: 1fr;
+  }
+  .appVisual {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .audienceGrid,
+  .productGrid,
+  .newsGrid {
+    grid-template-columns: 1fr;
+  }
+}
