@@ -17,22 +17,50 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeAudience, setActiveAudience] = useState('particuliers');
   const menuBtnRef = useRef(null);
+  const searchBtnRef = useRef(null);
   const searchInputRef = useRef(null);
+  const drawerRef = useRef(null);
+  const drawerCloseRef = useRef(null);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setOpenId(null);
+    menuBtnRef.current?.focus();
+  };
+
+  const closeSearch = () => {
+    setSearchOpen(false);
+    searchBtnRef.current?.focus();
+  };
 
   // Close on Escape (RGAA keyboard operability)
   useEffect(() => {
     function onKey(e) {
       if (e.key === 'Escape') {
-        setSearchOpen(false);
-        if (menuOpen) {
-          setMenuOpen(false);
-          menuBtnRef.current?.focus();
+        if (searchOpen) closeSearch();
+        if (menuOpen) closeMenu();
+      }
+
+      // Trap focus inside the drawer while it acts as a modal dialog
+      if (e.key === 'Tab' && menuOpen && drawerRef.current) {
+        const focusables = drawerRef.current.querySelectorAll(
+          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
         }
       }
     }
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [menuOpen]);
+  }, [menuOpen, searchOpen]);
 
   // Lock scroll while drawer open
   useEffect(() => {
@@ -42,14 +70,14 @@ export default function Header() {
     };
   }, [menuOpen]);
 
+  // Move focus into the modal drawer when it opens
+  useEffect(() => {
+    if (menuOpen) drawerCloseRef.current?.focus();
+  }, [menuOpen]);
+
   useEffect(() => {
     if (searchOpen && searchInputRef.current) searchInputRef.current.focus();
   }, [searchOpen]);
-
-  const closeMenu = () => {
-    setMenuOpen(false);
-    setOpenId(null);
-  };
 
   return (
     <header className={styles.header}>
@@ -94,10 +122,11 @@ export default function Header() {
         <div className={styles.actions}>
           <button
             type="button"
+            ref={searchBtnRef}
             className={styles.iconBtn}
             aria-expanded={searchOpen}
             aria-controls="site-search"
-            onClick={() => setSearchOpen((v) => !v)}
+            onClick={() => (searchOpen ? closeSearch() : setSearchOpen(true))}
           >
             <IconSearch />
             <span className="visually-hidden">Rechercher sur le site</span>
@@ -135,15 +164,24 @@ export default function Header() {
         </form>
       </div>
 
-      {/* Navigation drawer */}
+      {/* Navigation drawer (modal: backdrop blocks interaction with the rest of the page) */}
       <div
         id="primary-navigation"
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu principal"
         className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ''}`}
         hidden={!menuOpen}
       >
         <div className={styles.drawerHead}>
           <Logo />
-          <button type="button" className={styles.drawerClose} onClick={closeMenu}>
+          <button
+            type="button"
+            ref={drawerCloseRef}
+            className={styles.drawerClose}
+            onClick={closeMenu}
+          >
             <IconClose />
             <span>Fermer</span>
           </button>
@@ -212,6 +250,7 @@ export default function Header() {
       {menuOpen && (
         <button
           type="button"
+          tabIndex={-1}
           className={styles.backdrop}
           aria-label="Fermer le menu"
           onClick={closeMenu}
