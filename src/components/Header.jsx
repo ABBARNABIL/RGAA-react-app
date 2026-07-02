@@ -11,6 +11,11 @@ import {
 } from './Icons.jsx';
 import { audiences, utilityLinks, mainMenu } from '../data/navigation.js';
 
+// Elements the drawer's focus trap should cycle between.
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), ' +
+  'textarea:not([disabled]), [tabindex]:not([tabindex="-1"]), [contenteditable="true"]';
+
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openId, setOpenId] = useState(null);
@@ -37,15 +42,17 @@ export default function Header() {
   useEffect(() => {
     function onKey(e) {
       if (e.key === 'Escape') {
-        if (searchOpen) closeSearch();
+        // Close only the top-most overlay per press so a single Escape
+        // never dismisses more than one layer at a time.
         if (menuOpen) closeMenu();
+        else if (searchOpen) closeSearch();
       }
 
-      // Trap focus inside the drawer while it acts as a modal dialog
+      // Trap focus inside the drawer while it acts as a modal dialog.
+      // The backdrop button lives outside drawerRef and is intentionally
+      // tabIndex={-1} (mouse/touch dismissal only, kept out of Tab order).
       if (e.key === 'Tab' && menuOpen && drawerRef.current) {
-        const focusables = drawerRef.current.querySelectorAll(
-          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        );
+        const focusables = drawerRef.current.querySelectorAll(FOCUSABLE_SELECTOR);
         if (focusables.length === 0) return;
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
