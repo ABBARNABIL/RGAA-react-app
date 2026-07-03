@@ -276,9 +276,11 @@ export default function Header() {
       </div>
 
       {menuOpen && (
-        <div
+        <button
+          type="button"
           className={styles.backdrop}
-          aria-hidden="true"
+          aria-label="Fermer le menu"
+          tabIndex={-1}
           onClick={closeMenu}
         />
       )}

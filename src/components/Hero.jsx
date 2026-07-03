@@ -92,9 +92,6 @@ export default function Hero() {
           </div>
           <p className={styles.note}>{slide.note}</p>
         </div>
-        <p className="visually-hidden" aria-live={autoplayActive ? 'off' : 'polite'} aria-atomic="true">
-          Diapositive {index + 1} sur {count}&nbsp;: {slide.title}
-        </p>
 
         <div className={styles.controls}>
           <button
@@ -133,7 +130,7 @@ export default function Hero() {
             type="button"
             className={styles.playPause}
             onClick={() => setAutoplayEnabled((enabled) => !enabled)}
-            aria-pressed={autoplayEnabled}
+            aria-pressed={autoplayEnabled ? 'true' : 'false'}
           >
             <span aria-hidden="true">{autoplayEnabled ? '❚❚' : '►'}</span>
             <span className="visually-hidden">Lecture automatique du carrousel</span>
