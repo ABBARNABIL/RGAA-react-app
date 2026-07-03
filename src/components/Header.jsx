@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './Header.module.css';
 import Logo from './Logo.jsx';
 import {
@@ -10,29 +10,49 @@ import {
   IconArrowRight,
 } from './Icons.jsx';
 import { audiences, utilityLinks, mainMenu } from '../data/navigation.js';
+import { useModalDialog } from '../utils/a11y.js';
+
+const MENU_INERT_SELECTORS = ['main', 'footer'];
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openId, setOpenId] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeAudience, setActiveAudience] = useState('particuliers');
+  const barRef = useRef(null);
+  const drawerRef = useRef(null);
+  const drawerCloseRef = useRef(null);
   const menuBtnRef = useRef(null);
+  const searchBtnRef = useRef(null);
   const searchInputRef = useRef(null);
+  const searchWasOpenRef = useRef(false);
+  const menuInertRefs = useMemo(() => [barRef], []);
 
-  // Close on Escape (RGAA keyboard operability)
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false);
+    setOpenId(null);
+  }, []);
+
+  const toggleMenu = () => {
+    setMenuOpen((isOpen) => {
+      const nextOpen = !isOpen;
+      if (nextOpen) setSearchOpen(false);
+      return nextOpen;
+    });
+  };
+
+  const closeSearch = useCallback(() => {
+    setSearchOpen(false);
+  }, []);
+
+  // Close search on Escape (RGAA keyboard operability)
   useEffect(() => {
     function onKey(e) {
-      if (e.key === 'Escape') {
-        setSearchOpen(false);
-        if (menuOpen) {
-          setMenuOpen(false);
-          menuBtnRef.current?.focus();
-        }
-      }
+      if (e.key === 'Escape' && searchOpen) closeSearch();
     }
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [menuOpen]);
+    document.addEventListener('keydown', onKey, true);
+    return () => document.removeEventListener('keydown', onKey, true);
+  }, [closeSearch, searchOpen]);
 
   // Lock scroll while drawer open
   useEffect(() => {
@@ -43,17 +63,27 @@ export default function Header() {
   }, [menuOpen]);
 
   useEffect(() => {
-    if (searchOpen && searchInputRef.current) searchInputRef.current.focus();
+    if (searchOpen) {
+      searchWasOpenRef.current = true;
+      searchInputRef.current?.focus();
+    } else if (searchWasOpenRef.current) {
+      searchWasOpenRef.current = false;
+      searchBtnRef.current?.focus();
+    }
   }, [searchOpen]);
 
-  const closeMenu = () => {
-    setMenuOpen(false);
-    setOpenId(null);
-  };
+  useModalDialog({
+    open: menuOpen,
+    dialogRef: drawerRef,
+    initialFocusRef: drawerCloseRef,
+    onClose: closeMenu,
+    inertRefs: menuInertRefs,
+    inertSelectors: MENU_INERT_SELECTORS,
+  });
 
   return (
     <header className={styles.header}>
-      <div className={`container ${styles.bar}`}>
+      <div ref={barRef} className={`container ${styles.bar}`}>
         {/* Menu trigger */}
         <button
           type="button"
@@ -61,7 +91,7 @@ export default function Header() {
           className={styles.menuBtn}
           aria-expanded={menuOpen}
           aria-controls="primary-navigation"
-          onClick={() => setMenuOpen((v) => !v)}
+          onClick={toggleMenu}
         >
           <IconMenu width={26} height={26} />
           <span className={styles.menuBtnLabel}>Menu</span>
@@ -94,6 +124,7 @@ export default function Header() {
         <div className={styles.actions}>
           <button
             type="button"
+            ref={searchBtnRef}
             className={styles.iconBtn}
             aria-expanded={searchOpen}
             aria-controls="site-search"
@@ -113,8 +144,30 @@ export default function Header() {
       </div>
 
       {/* Search drawer */}
-      <div id="site-search" className={styles.search} hidden={!searchOpen}>
-        <form className={`container ${styles.searchForm}`} role="search" action="/recherche">
+      <div
+        id="site-search"
+        className={styles.search}
+        hidden={!searchOpen}
+        role="region"
+        aria-labelledby="site-search-title"
+      >
+        <div className={`container ${styles.searchPanel}`}>
+          <div className={styles.searchHead}>
+            <h2 id="site-search-title" className={styles.searchTitle}>
+              Recherche
+            </h2>
+            <button type="button" className={styles.drawerClose} onClick={closeSearch}>
+              <IconClose width={18} height={18} />
+              <span>Fermer</span>
+            </button>
+          </div>
+        </div>
+        <form
+          className={`container ${styles.searchForm}`}
+          role="search"
+          aria-labelledby="site-search-title"
+          action="/recherche"
+        >
           <label htmlFor="q" className={styles.searchLabel}>
             Que recherchez-vous&nbsp;?
           </label>
@@ -138,12 +191,25 @@ export default function Header() {
       {/* Navigation drawer */}
       <div
         id="primary-navigation"
+        ref={drawerRef}
         className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ''}`}
         hidden={!menuOpen}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="primary-navigation-title"
+        tabIndex={-1}
       >
         <div className={styles.drawerHead}>
+          <h2 id="primary-navigation-title" className="visually-hidden">
+            Menu principal
+          </h2>
           <Logo />
-          <button type="button" className={styles.drawerClose} onClick={closeMenu}>
+          <button
+            type="button"
+            ref={drawerCloseRef}
+            className={styles.drawerClose}
+            onClick={closeMenu}
+          >
             <IconClose />
             <span>Fermer</span>
           </button>
@@ -210,10 +276,9 @@ export default function Header() {
       </div>
 
       {menuOpen && (
-        <button
-          type="button"
+        <div
           className={styles.backdrop}
-          aria-label="Fermer le menu"
+          aria-hidden="true"
           onClick={closeMenu}
         />
       )}

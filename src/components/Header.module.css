@@ -113,6 +113,21 @@
   gap: 0.5rem;
 }
 
+.searchPanel {
+  margin-bottom: 0.75rem;
+}
+
+.searchHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.searchTitle {
+  font-size: var(--fs-xl);
+}
+
 .searchLabel {
   font-weight: 700;
 }
