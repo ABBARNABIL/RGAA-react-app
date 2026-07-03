@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import styles from './Header.module.css';
 import Logo from './Logo.jsx';
 import {
@@ -18,6 +18,11 @@ export default function Header() {
   const [activeAudience, setActiveAudience] = useState('particuliers');
   const menuBtnRef = useRef(null);
   const searchInputRef = useRef(null);
+
+  // Unique IDs generated per instance (RGAA 8.2 — no duplicate IDs)
+  const searchId = useId();
+  const navId = useId();
+  const searchFieldId = useId();
 
   // Close on Escape (RGAA keyboard operability)
   useEffect(() => {
@@ -60,7 +65,7 @@ export default function Header() {
           ref={menuBtnRef}
           className={styles.menuBtn}
           aria-expanded={menuOpen}
-          aria-controls="primary-navigation"
+          aria-controls={navId}
           onClick={() => setMenuOpen((v) => !v)}
         >
           <IconMenu width={26} height={26} />
@@ -96,7 +101,7 @@ export default function Header() {
             type="button"
             className={styles.iconBtn}
             aria-expanded={searchOpen}
-            aria-controls="site-search"
+            aria-controls={searchId}
             onClick={() => setSearchOpen((v) => !v)}
           >
             <IconSearch />
@@ -113,15 +118,15 @@ export default function Header() {
       </div>
 
       {/* Search drawer */}
-      <div id="site-search" className={styles.search} hidden={!searchOpen}>
+      <div id={searchId} className={styles.search} hidden={!searchOpen}>
         <form className={`container ${styles.searchForm}`} role="search" action="/recherche">
-          <label htmlFor="q" className={styles.searchLabel}>
+          <label htmlFor={searchFieldId} className={styles.searchLabel}>
             Que recherchez-vous&nbsp;?
           </label>
           <div className={styles.searchRow}>
             <input
               ref={searchInputRef}
-              id="q"
+              id={searchFieldId}
               name="q"
               type="search"
               placeholder="Mutuelle, remboursement, retraite…"
@@ -137,7 +142,7 @@ export default function Header() {
 
       {/* Navigation drawer */}
       <div
-        id="primary-navigation"
+        id={navId}
         className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ''}`}
         hidden={!menuOpen}
       >
@@ -152,7 +157,7 @@ export default function Header() {
         <nav className={styles.drawerNav} aria-label="Navigation principale">
           <ul className={styles.accordion}>
             {mainMenu.map((item) => {
-              const panelId = `acc-${item.id}`;
+              const panelId = `${navId}-acc-${item.id}`;
               const isOpen = openId === item.id;
               return (
                 <li key={item.id} className={styles.accItem}>
