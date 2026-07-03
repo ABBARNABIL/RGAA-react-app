@@ -45,15 +45,6 @@ export default function Header() {
     setSearchOpen(false);
   }, []);
 
-  // Close search on Escape (RGAA keyboard operability)
-  useEffect(() => {
-    function onKey(e) {
-      if (e.key === 'Escape' && searchOpen) closeSearch();
-    }
-    document.addEventListener('keydown', onKey, true);
-    return () => document.removeEventListener('keydown', onKey, true);
-  }, [closeSearch, searchOpen]);
-
   // Lock scroll while drawer open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -150,6 +141,9 @@ export default function Header() {
         hidden={!searchOpen}
         role="region"
         aria-labelledby="site-search-title"
+        onKeyDownCapture={(e) => {
+          if (e.key === 'Escape') closeSearch();
+        }}
       >
         <div className={`container ${styles.searchPanel}`}>
           <div className={styles.searchHead}>

@@ -130,10 +130,14 @@ export default function Hero() {
             type="button"
             className={styles.playPause}
             onClick={() => setAutoplayEnabled((enabled) => !enabled)}
-            aria-pressed={autoplayEnabled ? 'true' : 'false'}
+            aria-pressed={autoplayEnabled}
+            aria-label={
+              autoplayEnabled
+                ? 'Désactiver la lecture automatique du carrousel'
+                : 'Activer la lecture automatique du carrousel'
+            }
           >
             <span aria-hidden="true">{autoplayEnabled ? '❚❚' : '►'}</span>
-            <span className="visually-hidden">Lecture automatique du carrousel</span>
           </button>
         </div>
       </div>
