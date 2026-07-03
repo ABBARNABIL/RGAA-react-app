@@ -154,18 +154,21 @@ const news = [
   {
     tag: 'Santé',
     date: '12 juin 2026',
+    dateTime: '2026-06-12',
     title: 'Bien utiliser votre mutuelle : nos conseils pour 2026',
     href: '/actualites/bien-utiliser-sa-mutuelle/',
   },
   {
     tag: 'Retraite',
     date: '3 juin 2026',
-    title: 'PER : comment fonctionne le Plan d’Épargne Retraite&nbsp;?',
+    dateTime: '2026-06-03',
+    title: 'PER : comment fonctionne le Plan d’Épargne Retraite\u00A0?',
     href: '/actualites/plan-epargne-retraite/',
   },
   {
     tag: 'Prévention',
     date: '28 mai 2026',
+    dateTime: '2026-05-28',
     title: 'Bien-être au travail : 5 gestes pour préserver votre santé',
     href: '/actualites/bien-etre-au-travail/',
   },
@@ -196,13 +199,10 @@ export function News() {
                 <div className={styles.newsBody}>
                   <p className={styles.newsMeta}>
                     <span className={styles.newsTag}>{n.tag}</span>
-                    <time>{n.date}</time>
+                    <time dateTime={n.dateTime}>{n.date}</time>
                   </p>
                   <h3 className={styles.newsTitle}>
-                    <a
-                      href={n.href}
-                      dangerouslySetInnerHTML={{ __html: n.title }}
-                    />
+                    <a href={n.href}>{n.title}</a>
                   </h3>
                 </div>
               </article>
