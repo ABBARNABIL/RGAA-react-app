@@ -65,5 +65,9 @@ src/
 - Carrousel : `aria-roledescription`, boutons précédent/suivant, pause/lecture,
   pastilles avec `aria-current`, arrêt au survol/focus, respect de
   `prefers-reduced-motion`.
+- Modules tiers (TrustCommander, contact, chat, modales, panneaux, onglets,
+  sélecteurs Oui/Non) : exiger des libellés accessibles, rôles/états ARIA,
+  gestion du focus et masquage des contenus inactifs équivalents aux composants
+  internes avant intégration en production.
 - Focus visible renforcé (`:focus-visible`), contrastes AA, cibles ≥ 40 px,
   textes alternatifs et libellés explicites.

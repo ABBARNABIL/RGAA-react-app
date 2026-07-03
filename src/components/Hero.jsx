@@ -36,18 +36,21 @@ const AUTOPLAY_MS = 7000;
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
-  const [playing, setPlaying] = useState(true);
+  const [autoplayEnabled, setAutoplayEnabled] = useState(true);
+  const [autoplaySuspended, setAutoplaySuspended] = useState(false);
   const regionRef = useRef(null);
   const count = slides.length;
+  // Announce manual changes, but keep automatic slide rotation silent.
+  const autoplayActive = autoplayEnabled && !autoplaySuspended;
 
   const go = (i) => setIndex((i + count) % count);
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!playing || reduced) return undefined;
+    if (!autoplayActive || reduced) return undefined;
     const t = setInterval(() => setIndex((i) => (i + 1) % count), AUTOPLAY_MS);
     return () => clearInterval(t);
-  }, [playing, count]);
+  }, [autoplayActive, count]);
 
   const slide = slides[index];
 
@@ -57,20 +60,23 @@ export default function Hero() {
       className={styles.hero}
       aria-roledescription="carrousel"
       aria-label="Nos offres du moment"
-      onMouseEnter={() => setPlaying(false)}
-      onMouseLeave={() => setPlaying(true)}
-      onFocusCapture={() => setPlaying(false)}
+      onMouseEnter={() => setAutoplaySuspended(true)}
+      onMouseLeave={() => setAutoplaySuspended(false)}
+      onFocusCapture={() => setAutoplaySuspended(true)}
       onBlurCapture={(e) => {
-        if (!regionRef.current?.contains(e.relatedTarget)) setPlaying(true);
+        if (!regionRef.current?.contains(e.relatedTarget)) setAutoplaySuspended(false);
       }}
     >
       <div className={styles.blob} aria-hidden="true" />
       <div className={`container ${styles.inner}`}>
         <div
+          id="hero-carousel-slide"
           className={styles.slide}
           role="group"
           aria-roledescription="diapositive"
-          aria-label={`${index + 1} sur ${count}`}
+          aria-label={`Diapositive ${index + 1} sur ${count} : ${slide.title}`}
+          aria-live={autoplayActive ? 'off' : 'polite'}
+          aria-atomic="true"
           key={slide.id}
         >
           <p className={styles.eyebrow}>{slide.eyebrow}</p>
@@ -104,6 +110,7 @@ export default function Hero() {
                 key={s.id}
                 type="button"
                 aria-current={i === index ? 'true' : undefined}
+                aria-controls="hero-carousel-slide"
                 aria-label={`Aller à la diapositive ${i + 1} sur ${count} : ${s.eyebrow}`}
                 className={`${styles.dot} ${i === index ? styles.dotActive : ''}`}
                 onClick={() => go(i)}
@@ -123,13 +130,15 @@ export default function Hero() {
           <button
             type="button"
             className={styles.playPause}
-            onClick={() => setPlaying((p) => !p)}
-            aria-pressed={!playing}
+            onClick={() => setAutoplayEnabled((enabled) => !enabled)}
+            aria-pressed={!autoplayEnabled}
+            aria-label={
+              autoplayEnabled
+                ? 'Désactiver la lecture automatique du carrousel'
+                : 'Activer la lecture automatique du carrousel'
+            }
           >
-            {playing ? '❚❚' : '►'}
-            <span className="visually-hidden">
-              {playing ? 'Mettre en pause le carrousel' : 'Lancer le carrousel'}
-            </span>
+            <span aria-hidden="true">{autoplayEnabled ? '❚❚' : '►'}</span>
           </button>
         </div>
       </div>
