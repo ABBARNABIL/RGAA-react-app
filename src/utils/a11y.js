@@ -26,7 +26,7 @@ export function useModalDialog({
   inertSelectors = [],
 }) {
   const restoreFocusRef = useRef(null);
-  const inertSelectorKey = inertSelectors.join(',');
+  const inertSelectorKey = JSON.stringify(inertSelectors);
 
   useEffect(() => {
     if (!open) return undefined;

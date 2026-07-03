@@ -40,6 +40,7 @@ export default function Hero() {
   const [autoplaySuspended, setAutoplaySuspended] = useState(false);
   const regionRef = useRef(null);
   const count = slides.length;
+  // Announce manual changes, but keep automatic slide rotation silent.
   const autoplayActive = autoplayEnabled && !autoplaySuspended;
 
   const go = (i) => setIndex((i + count) % count);
@@ -130,7 +131,7 @@ export default function Hero() {
             type="button"
             className={styles.playPause}
             onClick={() => setAutoplayEnabled((enabled) => !enabled)}
-            aria-pressed={autoplayEnabled}
+            aria-pressed={!autoplayEnabled}
             aria-label={
               autoplayEnabled
                 ? 'Désactiver la lecture automatique du carrousel'
